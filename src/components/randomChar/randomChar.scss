@@ -1,0 +1,54 @@
+@import '../../style/variables.scss';
+
+.randomchar {
+    position: relative;
+    padding: 25px;
+    width: fit-content;
+    height: 100%;
+    margin: 0 auto 50px;
+    border-radius: 7px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .5);
+
+    &__card {
+        display: flex;
+
+        img {
+            width: 150px;
+            height: 150px;
+            border-radius: 7px;
+            //box-shadow: 0 0 15px rgba(0, 0, 0, .5);
+            object-fit: cover;
+            border: none;
+        }
+    }
+
+    &__name {
+        display: block;
+        color: $main-color;
+
+        h2 {
+            font-size: 27px;
+            font-weight: 900;
+            transition: .4s all;
+        }
+
+        &:hover {
+            color: $second-color;
+        }
+    }
+
+    &__item {
+        padding: 12px;
+    }
+
+    &__btns {
+        display: flex;
+    }
+
+    &__btn {
+        margin: 15px 10px 0px;
+        background: $main-color;
+        color: #fff;
+    }
+
+}

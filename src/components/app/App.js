@@ -1,6 +1,7 @@
 import RickAndMortyService from './../../services/RickAndMortyService';
 import Header from '../header/Header';
 import CharList from './../charList/CharList';
+import RandomChar from '../randomChar/RandomChar';
 
 import './app.css';
 
@@ -11,6 +12,7 @@ function App() {
         <div className="App">
             <Header />
             <main>
+                <RandomChar />
                 <CharList />
             </main>
         </div>

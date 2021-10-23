@@ -1,8 +1,7 @@
 .spinner {
-    position: absolute;
-    margin: auto;
+    display: block;
+    margin: 0 auto;
     animation: spinner 1.5s infinite linear;
-    //transform-origin: -13px -13px;
 }
 
 @keyframes spinner {

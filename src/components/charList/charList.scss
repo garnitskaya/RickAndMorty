@@ -43,12 +43,35 @@
         &__block {
             a {
                 font-size: 18px;
+                transition: .4s all;
 
                 &:hover {
-                    transition: 0.4s all;
-                    color: rgb(255, 152, 0);
+                    color: $second-color;
                 }
             }
+        }
+
+        &__status {
+            display: flex;
+            align-items: center;
+
+            i {
+                margin-right: 10px;
+                font-size: 12px;
+            }
+
+            .red {
+                color: red;
+            }
+
+            .green {
+                color: green;
+            }
+
+            .grey {
+                color: rgb(158, 158, 158);
+            }
+
         }
 
         &__name {
@@ -57,12 +80,6 @@
             h2 {
                 font-size: 27px;
                 font-weight: 900;
-            }
-
-            &:hover {
-                transition: 0.4s all;
-                color: rgb(255, 152, 0);
-
             }
         }
 
@@ -73,23 +90,6 @@
     }
 
     &__bnt {
-        display: block;
         margin: 50px auto;
-        padding: 5px 20px;
-        font-size: 18px;
-        font-weight: 500;
-        border-radius: 2px;
-        border: none;
-        background-color: #fff;
-        box-shadow: 0 0 15px rgba(0, 0, 0, .5);
-        transition: .6s all;
-        cursor: pointer;
-
-        &:hover {
-            background-color: rgba(255, 255, 255, .8);
-            transform: scale(1.1);
-        }
     }
-
-
 }

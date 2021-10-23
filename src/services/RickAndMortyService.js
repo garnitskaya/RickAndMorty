@@ -15,6 +15,11 @@ export default class RickAndMortyService {
         return res.results.map(this._transformCharacter);
     }
 
+    getCharacter = async (id) => {
+        const res = await this.getResource(`${this._apiBase}/character/${id}`);
+        return this._transformCharacter(res);
+    }
+
     getAllEpisode = async () => {
         const res = await this.getResource(`${this._apiBase}/episode`);
         return res.results;
@@ -28,12 +33,14 @@ export default class RickAndMortyService {
     _transformCharacter = (char) => {
         return {
             id: char.id,
+            url: char.url,
             name: char.name,
             status: char.status,
             species: char.species,
             image: char.image,
-            location: char.location,
-            episode: char.episode,
+            locationUrl: char.location.url,
+            locationName: char.location.name,
+            episode: char.episode[0],
         }
     }
 

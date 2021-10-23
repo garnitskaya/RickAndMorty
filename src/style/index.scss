@@ -46,3 +46,23 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+
+.button {
+    display: block;
+    padding: 7px 30px;
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: uppercase;
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .5);
+    transition: .6s all;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $second-color;
+        transform: scale(1.1);
+    }
+}

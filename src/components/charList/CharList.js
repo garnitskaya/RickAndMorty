@@ -41,29 +41,43 @@ class CharList extends Component {
     }
 
     renderItems = (arr) => {
-        return arr.map(({ id, name, image, status, location, episode, species }) => {
+        const items = arr.map(({ id, name, image, status, locationUrl, locationName, episode, species, url }) => {
+
+            const red = status === "Dead" ? 'red' : null;
+            const green = status === "Alive" ? 'green' : null;
+            const grey = status === "unknown" ? 'grey' : null;
+
             return (
                 <li className='char__card' key={id} >
                     <img src={image} alt={name} />
                     <div className='char__block char-item'>
                         <div className='char-item__block'>
-                            <a className='char-item__name' href='s#'>
+                            <a className='char-item__name' href={url}>
                                 <h2>{name}</h2>
                             </a>
-                            <span className='char-item__status'>{status} - {species}</span>
+                            <span className='char-item__status'>
+                                <i className={`fas fa-circle ${red} ${grey} ${green}`}></i>
+                                {status} - {species}
+                            </span>
                         </div>
                         <div className='char-item__block'>
                             <div className='char-item__label'>Last known location:</div>
-                            <a href={location.url}>{location.name}</a>
+                            <a href={locationUrl}>{locationName}</a>
                         </div>
                         <div className='char-item__block'>
                             <div className='char-item__label'>First seen in:</div>
-                            <a href='s#'>{episode[0]}</a>
+                            <a href={episode}>{episode}</a>
                         </div>
                     </div>
                 </li>
             )
         })
+
+        return (
+            <ul className='char__grid'>
+                {items}
+            </ul>
+        )
     }
 
     render() {
@@ -75,12 +89,10 @@ class CharList extends Component {
         const content = !(loading, errorMessage) ? items : null;
         return (
             <div className='char__list'>
-                <ul className='char__grid'>
-                    {errorMessage}
-                    {spinner}
-                    {content}
-                </ul>
-                <button className='char__bnt'>load more</button>
+                {errorMessage}
+                {spinner}
+                {content}
+                <button className='char__bnt button'>load more</button>
             </div>
         )
     }
