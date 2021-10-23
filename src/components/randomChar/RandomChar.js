@@ -10,35 +10,49 @@ class RandomChar extends Component {
         char: {},
         loading: true,
         error: false
-    };
+    }
 
     rickAndMortyService = new RickAndMortyService();
 
     componentDidMount() {
         this.updateChar();
-    };
+        this.timeId = setInterval(this.updateChar, 100000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timeId);
+    }
 
     updateChar = () => {
         const id = Math.floor(Math.random() * (670 - 1) + 1);
+
+        this.onCharLoading();
+
         this.rickAndMortyService
             .getCharacter(id)
             .then(this.onCharLoaded)
             .catch(this.onError)
-    };
+    }
 
     onCharLoaded = (char) => {
         this.setState({
             char,
             loading: false
         })
-    };
+    }
+
+    onCharLoading = () => {
+        this.setState({
+            loading: true
+        })
+    }
 
     onError = () => {
         this.setState({
             error: true,
             loading: false
         })
-    };
+    }
 
     render() {
         const { char, loading, error } = this.state;
@@ -56,7 +70,11 @@ class RandomChar extends Component {
 
                 <div className='randomchar__btns'>
                     <a href='#s' className='button randomchar__btn '>details</a>
-                    <button className='button randomchar__btn'>try it</button>
+                    <button
+                        className='button randomchar__btn'
+                        onClick={this.updateChar}>
+                        try it
+                    </button>
                 </div>
             </div>
         )
@@ -68,13 +86,9 @@ const View = ({ char }) => {
     return (
         <div className='randomchar__card'>
             <img src={image} alt={name} />
-            <div className='randomchar__item'>
-                <div className='randomchar__block'>
-                    <a className='randomchar__name' href={url}>
-                        <h2>{name}</h2>
-                    </a>
-                </div>
-            </div>
+            <a className='randomchar__name' href={url}>
+                <h2>{name}</h2>
+            </a>
         </div >
     )
 }

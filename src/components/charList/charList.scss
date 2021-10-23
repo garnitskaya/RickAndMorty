@@ -3,7 +3,7 @@
 .char {
     &__list {
         position: relative;
-        padding: 70px 0;
+        padding: 70px 20px;
         background: rgb(36, 40, 47);
         height: 100%;
         box-shadow: 0 0 15px rgba(0, 0, 0, .5);
@@ -12,17 +12,23 @@
     &__grid {
         display: grid;
         justify-content: center;
-        grid-template-columns: repeat(auto-fill, 600px);
-        gap: 25px;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 600px));
+        gap: 20px;
     }
 
     &__card {
-        display: grid;
-        grid-template-columns: 220px auto;
+        margin: 10px;
+        height: 100%;
+        display: flex;
         overflow: hidden;
         background: rgb(60, 62, 68);
         border-radius: 7px;
         box-shadow: 0 0 15px rgba(0, 0, 0, .5);
+
+    }
+
+    &__img {
+        flex: 1 1;
 
         img {
             width: 100%;
@@ -32,8 +38,10 @@
     }
 
     &-item {
+        flex: 2 1;
         padding: 10px;
         display: flex;
+        width: 100%;
         flex-direction: column;
         justify-content: space-between;
         color: #fff;
@@ -91,5 +99,24 @@
 
     &__bnt {
         margin: 50px auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .char {
+        &__list {
+            padding: 20px;
+        }
+
+        &__img {
+
+            img {
+                height: 350px;
+            }
+        }
+
+        &__card {
+            flex-direction: column;
+        }
     }
 }

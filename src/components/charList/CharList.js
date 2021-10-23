@@ -49,7 +49,9 @@ class CharList extends Component {
 
             return (
                 <li className='char__card' key={id} >
-                    <img src={image} alt={name} />
+                    <div className='char__img'>
+                        <img src={image} alt={name} />
+                    </div>
                     <div className='char__block char-item'>
                         <div className='char-item__block'>
                             <a className='char-item__name' href={url}>
