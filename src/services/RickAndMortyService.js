@@ -1,5 +1,6 @@
 export default class RickAndMortyService {
     _apiBase = 'https://rickandmortyapi.com/api';
+    _baseOffset = 1;
 
     getResource = async (url) => {
         const res = await fetch(url);
@@ -10,8 +11,8 @@ export default class RickAndMortyService {
         return await res.json();
     }
 
-    getAllCharacters = async () => {
-        const res = await this.getResource(`${this._apiBase}/character`);
+    getAllCharacters = async (offset = this._baseOffset) => {
+        const res = await this.getResource(`${this._apiBase}/character/?page=${offset}`);
         return res.results.map(this._transformCharacter);
     }
 
