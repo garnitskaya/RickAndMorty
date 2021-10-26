@@ -39,9 +39,9 @@ export default class RickAndMortyService {
             status: char.status,
             species: char.species,
             image: char.image,
-            locationUrl: char.location.url,
             locationName: char.location.name,
             episode: char.episode[0],
+            gender: char.gender
         }
     }
 

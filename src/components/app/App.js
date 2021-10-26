@@ -15,9 +15,12 @@ const App = () => {
                     <RandomChar />
                 </ErrorBoundary>
 
-                <ErrorBoundary>
-                    <CharList />
-                </ErrorBoundary>
+
+                <div className='char__content'>
+                    <ErrorBoundary>
+                        <CharList />
+                    </ErrorBoundary>
+                </div>
             </main>
         </div>
     )

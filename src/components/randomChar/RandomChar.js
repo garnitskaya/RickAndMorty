@@ -68,14 +68,12 @@ class RandomChar extends Component {
                 {errorMessage}
                 {content}
 
-                <div className='randomchar__btns'>
-                    <a href='#s' className='button randomchar__btn '>details</a>
-                    <button
-                        className='button randomchar__btn'
-                        onClick={this.updateChar}>
-                        try it
-                    </button>
-                </div>
+
+                <button
+                    className='button randomchar__btn'
+                    onClick={this.updateChar}>
+                    try it
+                </button>
             </div>
         )
     }
