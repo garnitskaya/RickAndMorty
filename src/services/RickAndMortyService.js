@@ -21,7 +21,7 @@ export default class RickAndMortyService {
         return this._transformCharacter(res);
     }
 
-    //getCharactersSpecies = async (offset, species = '') => {
+    //getAllCharactersSpecies = async (offset, species = '') => {
     //    const res = await this.getResource(`${this._apiBase}/character/?page=${offset}&species=${species}`);
     //    return res.results.map(this._transformCharacter);
     //}

@@ -15,6 +15,7 @@
     }
 
     &__select {
+        margin-top: 25px;
         display: flex;
     }
 
@@ -44,7 +45,7 @@
         height: 100%;
         background: rgb(60, 62, 68);
         border-radius: 7px;
-        overflow: hidden;
+        //overflow: hidden;
         box-shadow: 0 0 15px rgba(0, 0, 0, .5);
     }
 
@@ -58,7 +59,7 @@
         border: 1px solid #fff;
         background: rgba(32, 35, 41, .5);
         cursor: pointer;
-        transition: .5s all;
+        transition: .6s all;
 
         &:hover {
             background: $main-color;
@@ -80,6 +81,7 @@
     }
 
     &-item {
+        position: relative;
         margin-top: 10px;
         display: flex;
         height: 100%;
@@ -125,18 +127,21 @@
         }
 
         &__blocks {
-            margin-top: 12px;
-            max-height: 0;
+            position: absolute;
+            padding: 20px;
+            width: 280px;
             background: rgb(60, 62, 68);
-            transition: .4s all;
+            top: 100%;
+            left: -20px;
             transform-origin: 0 0;
             transform: scaleY(0);
         }
 
         .active {
-            transition: .6s all;
-            max-height: 100%;
+            max-height: fit-content;
             transform: scaleY(1);
+            transition: .6s all;
+            z-index: 10;
         }
 
         &__label {
@@ -161,21 +166,11 @@
 }
 
 
-//@media (max-width: 576px) {
-//    .char {
-//        &__list {
-//            padding: 20px;
-//        }
-
-//        &__img {
-
-//            img {
-//                height: 350px;
-//            }
-//        }
-
-//        &__card {
-//            flex-direction: column;
-//        }
-//    }
-//}
+@media (max-width: 768px) {
+    .char {
+        &__select {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}

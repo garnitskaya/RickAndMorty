@@ -2,6 +2,7 @@ import Header from '../header/Header';
 import CharList from './../charList/CharList';
 import RandomChar from '../randomChar/RandomChar';
 import ErrorBoundary from '../errorBoundary/ErrorBoundary';
+import MainMenu from '../mainMenu/MainMenu';
 
 import './app.css';
 
@@ -10,17 +11,16 @@ const App = () => {
     return (
         <div className="App">
             <Header />
-            <main>
+
+            <ErrorBoundary>
+                <RandomChar />
+            </ErrorBoundary>
+
+            <main className='char__content'>
+                <MainMenu />
                 <ErrorBoundary>
-                    <RandomChar />
+                    <CharList />
                 </ErrorBoundary>
-
-
-                <div className='char__content'>
-                    <ErrorBoundary>
-                        <CharList />
-                    </ErrorBoundary>
-                </div>
             </main>
         </div>
     )

@@ -1,0 +1,32 @@
+@import '../../style/variables.scss';
+
+.main-menu {
+    margin: 0 auto;
+    width: 450px;
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+
+    &__link {
+        color: #fff;
+        font-size: 25px;
+        font-weight: 700;
+        transition: .6s all;
+
+        &:hover,
+        .active {
+            color: $second-color;
+            border-bottom: 1px solid $second-color;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .main-menu {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+    }
+}

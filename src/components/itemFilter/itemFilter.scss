@@ -20,3 +20,11 @@
         color: $main-color;
     }
 }
+
+
+
+@media (max-width: 768px) {
+    .item-filter {
+        margin-top: 15px;
+    }
+}

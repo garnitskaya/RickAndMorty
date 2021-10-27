@@ -3,7 +3,7 @@
 .search-panel {
     margin-right: 15px;
     position: relative;
-    width: 600px;
+    width: 500px;
 
     &__input {
         padding: 0 10px;
@@ -21,5 +21,16 @@
         right: 15px;
         font-size: 25px;
         color: $main-color;
+    }
+}
+
+@media (max-width: 576px) {
+    .search-panel {
+        width: 275px;
+        margin-right: 0;
+
+        &__input {
+            font-size: 15px;
+        }
     }
 }
