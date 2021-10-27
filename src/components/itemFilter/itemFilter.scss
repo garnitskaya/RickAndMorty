@@ -1,0 +1,22 @@
+@import '../../style/variables.scss';
+
+.item-filter {
+    font-size: 22px;
+    font-weight: 500;
+    border-radius: 5px;
+    width: fit-content;
+    text-align: center;
+
+    &__option {
+        &:not(:checked) {
+            background-color: $main-color;
+            color: $second-color;
+        }
+    }
+
+    .active {
+        font-size: 30px;
+        background-color: $second-color;
+        color: $main-color;
+    }
+}

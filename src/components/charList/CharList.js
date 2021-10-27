@@ -1,6 +1,7 @@
 import { Component } from 'react';
 
 import ErrorMessage from '../errorMessage/ErrorMessage';
+import ItemFilter from '../itemFilter/ItemFilter';
 import RickAndMortyService from './../../services/RickAndMortyService';
 import SearchPanel from './../searchPanel/SearchPanel';
 import Spinner from './../spinner/Spinner';
@@ -17,7 +18,10 @@ class CharList extends Component {
         newItemLoading: false,
         offset: 1,
         charEnded: false,
-        term: ''
+        term: '',
+        filter: 'all',
+        selectedChar: null,
+        showInfo: false
     }
 
     rickAndMortyService = new RickAndMortyService();
@@ -38,6 +42,13 @@ class CharList extends Component {
 
     //componentWillUnmount() {
     //    window.removeEventListener('scroll', this.handleScroll);
+    //}
+
+    //componentDidUpdate(prevPops, prevState) {
+    //    if (this.state.filter !== prevState.filter) {
+    //        this.onRequest();
+    //        console.log('update')
+    //    }
     //}
 
     onRequest = (offset) => {
@@ -88,6 +99,44 @@ class CharList extends Component {
         this.setState({ term })
     }
 
+    filterItem = (charList, filter) => {
+        switch (filter) {
+            case "human":
+                return charList.filter(item => item.species === 'Human');
+            case "alien":
+                return charList.filter(item => item.species === 'Alien');
+            case "humanoid":
+                return charList.filter(item => item.species === 'Humanoid');
+            case "robot":
+                return charList.filter(item => item.species === 'Robot');
+            case "animal":
+                return charList.filter(item => item.species === 'Animal');
+            case "disease":
+                return charList.filter(item => item.species === 'Disease');
+            case "mythologicalCreature":
+                return charList.filter(item => item.species === 'Mythological Creature');
+            case "poopybutthole":
+                return charList.filter(item => item.species === 'Poopybutthole');
+            case "cronenberg":
+                return charList.filter(item => item.species === 'Cronenberg');
+            case "unknown":
+                return charList.filter(item => item.species === 'unknown');
+            default:
+                return charList;
+        }
+    }
+
+    onFilterChange = (filter) => {
+        this.setState({ filter })
+    }
+
+    onShowInfo = (id) => {
+        this.setState({
+            selectedChar: id,
+            showInfo: !this.state.showInfo
+        })
+    }
+
     renderItems = (arr) => {
         const items = arr.map(({ id, name, image, status, locationName, episode, species, gender }) => {
 
@@ -129,18 +178,22 @@ class CharList extends Component {
                 }
             }
 
+            const { selectedChar, showInfo } = this.state;
+            const active = selectedChar === id && showInfo ? 'active' : '';
+
             return (
                 <li className='char__card' key={id} >
 
                     <button
                         className='char__descr'
-                        onClick={() => console.log(id)}>
+                        onClick={() => this.onShowInfo(id)}>
                         <i className="descr far fa-eye"></i>
                     </button>
+
                     <img className='char__img' src={image} alt={name} />
 
                     <div className='char__block char-item'>
-                        <h2 className='char-item__name'> {name}</h2>
+                        <h2 className='char-item__name'> {name.length > 15 ? `${name.slice(0, 14)}...` : name}</h2>
                         <div className='char-item__block'>
                             <div className='char-item__species'>
                                 Species
@@ -153,7 +206,7 @@ class CharList extends Component {
                                 {status}
                             </div>
                         </div>
-                        <div className='char-item__blocks'>
+                        <div className={`char-item__blocks ${active}`}>
                             <div className='char-item__label'>
                                 Gender:<br />
                                 <span>{gender}</span>
@@ -178,7 +231,7 @@ class CharList extends Component {
         return (
             <>
                 <div className='char__count'>results: {allCharList}</div>
-                <ul className='char__grid'>
+                <ul className='char__flex'>
                     {items}
                 </ul>
             </>
@@ -186,15 +239,19 @@ class CharList extends Component {
     }
 
     render() {
-        const { charList, loading, error, newItemLoading, offset, charEnded, term } = this.state;
-        const items = this.renderItems(this.searchItem(charList, term));
+        const { charList, loading, error, newItemLoading, offset, charEnded, term, filter } = this.state;
+        const items = this.renderItems(this.filterItem((this.searchItem(charList, term)), filter));
 
         const errorMessage = error ? <ErrorMessage /> : null;
         const spinner = loading ? <Spinner /> : null
         const content = !(loading, errorMessage) ? items : null;
         return (
             <div className='char__list'>
-                <SearchPanel onUpdateSearch={this.onUpdateSearch} />
+
+                <div className='char__select'>
+                    <SearchPanel onUpdateSearch={this.onUpdateSearch} />
+                    <ItemFilter onFilterChange={this.onFilterChange} filter={filter} />
+                </div>
 
                 {errorMessage}
                 {spinner}

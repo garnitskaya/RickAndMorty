@@ -14,6 +14,10 @@
         align-items: center;
     }
 
+    &__select {
+        display: flex;
+    }
+
     &__count {
         margin-top: 15px;
         color: #fff;
@@ -21,11 +25,13 @@
         font-weight: 500;
     }
 
-    &__grid {
+    &__flex {
         margin-top: 15px;
-        display: grid;
+        width: 100%;
+        max-width: 1550px;
+        display: flex;
+        flex-wrap: wrap;
         justify-content: center;
-        grid-template-columns: repeat(5, 280px);
         gap: 30px;
     }
 
@@ -34,6 +40,8 @@
         padding: 20px;
         display: flex;
         flex-direction: column;
+        width: 280px;
+        height: 100%;
         background: rgb(60, 62, 68);
         border-radius: 7px;
         overflow: hidden;
@@ -44,8 +52,8 @@
         position: absolute;
         width: 50px;
         height: 50px;
-        top: 25px;
-        right: 25px;
+        top: 20px;
+        right: 20px;
         border-radius: 50%;
         border: 1px solid #fff;
         background: rgba(32, 35, 41, .5);
@@ -54,6 +62,7 @@
 
         &:hover {
             background: $main-color;
+            transform: scale(1.1);
         }
 
         .descr {
@@ -111,21 +120,23 @@
 
         &__name {
             text-align: center;
-            font-size: 23px;
+            font-size: 22px;
             font-weight: 900;
         }
 
         &__blocks {
             margin-top: 12px;
             max-height: 0;
+            background: rgb(60, 62, 68);
+            transition: .4s all;
+            transform-origin: 0 0;
+            transform: scaleY(0);
+        }
+
+        .active {
             transition: .6s all;
-            opacity: 0;
-
-            &:hover {
-                max-height: 100%;
-                opacity: 1;
-
-            }
+            max-height: 100%;
+            transform: scaleY(1);
         }
 
         &__label {
@@ -148,6 +159,7 @@
         margin: 50px auto;
     }
 }
+
 
 //@media (max-width: 576px) {
 //    .char {

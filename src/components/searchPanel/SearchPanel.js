@@ -20,6 +20,7 @@ class SearchPanel extends Component {
             <div className='search-panel'>
                 <input
                     className='search-panel__input'
+                    placeholder='Type a character`s name'
                     type='text'
                     value={term}
                     onChange={this.onUpdateSearch} />
