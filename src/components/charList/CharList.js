@@ -132,7 +132,7 @@ class CharList extends Component {
     }
 
     renderItems = (arr) => {
-        const items = arr.map(({ id, name, image, status, locationName, charEpisode, species, gender }) => {
+        const items = arr.map(({ id, name, image, status, locationName, episode, species, gender }) => {
 
             const statusIcon = (status) => {
                 switch (status) {
@@ -211,8 +211,8 @@ class CharList extends Component {
                             </div>
 
                             <div className='char-item__label'>
-                                Episodes:<br />
-                                <span>{charEpisode}</span>
+                                First seen in::<br />
+                                <span>{episode}</span>
                             </div>
                         </div>
                     </div>
@@ -239,6 +239,7 @@ class CharList extends Component {
         const errorMessage = error ? <ErrorMessage /> : null;
         const spinner = loading ? <Spinner /> : null
         const content = !(loading, errorMessage) ? items : null;
+
         return (
             <div className='char__list'>
 

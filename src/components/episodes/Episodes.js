@@ -10,23 +10,45 @@ class Episodes extends Component {
     state = {
         episodes: [],
         loading: true,
-        error: false
+        error: false,
+        newItemLoading: false,
+        offset: 1,
+        ended: false
     }
 
     rickAndMortyService = new RickAndMortyService();
 
     componentDidMount() {
+        this.onRequest()
+    }
+
+    onRequest = (offset) => {
+        this.onEpisodeLoading();
         this.rickAndMortyService
-            .getAllEpisode()
+            .getAllEpisode(offset)
             .then(this.onEpisodeLoaded)
             .catch(this.OnError)
     }
 
-    onEpisodeLoaded = (episodes) => {
+    onEpisodeLoading = () => {
         this.setState({
-            episodes,
-            loading: false
+            newItemLoading: true
         })
+    }
+
+    onEpisodeLoaded = (newEpisodes) => {
+        let ended = false;
+        if (newEpisodes.length < 20) {
+            ended = true
+        }
+
+        this.setState(({ offset, episodes }) => ({
+            episodes: [...episodes, ...newEpisodes],
+            loading: false,
+            newItemLoading: false,
+            offset: offset + 1,
+            ended: ended
+        }))
     }
 
     onError = () => {
@@ -54,14 +76,14 @@ class Episodes extends Component {
 
             return (
                 <div className='episodes__item' key={id}>
-                    <h3 className='episodes__name'> {name} {id}:</h3>
+                    <h3 className='episodes__name'> {name}:</h3>
                     <div className='episodes__img'>{character}</div>
                 </div>)
         })
     }
 
     render() {
-        const { episodes, loading, error } = this.state;
+        const { episodes, loading, error, newItemLoading, offset, ended } = this.state;
         const episode = this.renderItem(episodes);
         const spinner = loading ? <Spinner /> : null;
         const errorMessage = error ? <ErrorMessage /> : null;
@@ -80,9 +102,9 @@ class Episodes extends Component {
                 </div>
                 <button
                     className='button__load button'
-                //disabled={newItemLoading}
-                //style={{ 'display': charEnded ? 'none' : 'block' }}
-                //onClick={() => this.onRequest(offset)}
+                    disabled={newItemLoading}
+                    style={{ 'display': ended ? 'none' : 'block' }}
+                    onClick={() => this.onRequest(offset)}
                 >
                     load more
                 </button>

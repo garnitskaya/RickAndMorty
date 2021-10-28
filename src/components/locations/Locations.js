@@ -9,25 +9,46 @@ class Location extends Component {
     state = {
         locations: [],
         loading: true,
-        error: false
+        error: false,
+        newItemLoading: false,
+        offset: 1,
+        ended: false
     }
 
     rickandmortyapi = new RickAndMortyService();
 
     componentDidMount() {
+        this.onRequest();
+    }
+
+    onRequest = (offset) => {
+        this.onLocationLoading();
         this.rickandmortyapi
-            .getAllLocation()
+            .getAllLocation(offset)
             .then(this.onLocationLoaded)
             .catch(this.onError)
     }
 
-    onLocationLoaded = (locations) => {
+    onLocationLoading = () => {
         this.setState({
-            locations,
-            loading: false
+            newItemLoading: true
         })
     }
 
+    onLocationLoaded = (newLocations) => {
+        let ended = false;
+        if (newLocations.length < 20) {
+            ended = true;
+        }
+
+        this.setState(({ offset, locations }) => ({
+            locations: [...locations, ...newLocations],
+            loading: false,
+            newItemLoading: false,
+            offset: offset + 1,
+            ended: ended
+        }))
+    }
 
     onError = () => {
         this.setState({
@@ -81,7 +102,7 @@ class Location extends Component {
 
 
     render() {
-        const { locations, loading, error } = this.state;
+        const { locations, loading, error, offset, newItemLoading, ended } = this.state;
         const location = this.renderItem(locations);
         const spinner = loading ? <Spinner /> : null;
         const errorMessage = error ? <ErrorMessage /> : null;
@@ -99,9 +120,9 @@ class Location extends Component {
                 </div>
                 <button
                     className='button button__load'
-                //disabled={newItemLoading}
-                //style={{ 'display': charEnded ? 'none' : 'block' }}
-                //onClick={() => this.onRequest(offset)}
+                    disabled={newItemLoading}
+                    style={{ 'display': ended ? 'none' : 'block' }}
+                    onClick={() => this.onRequest(offset)}
                 >
                     load more
                 </button>

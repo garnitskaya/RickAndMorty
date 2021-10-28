@@ -26,13 +26,13 @@ export default class RickAndMortyService {
     //    return res.results.map(this._transformCharacter);
     //}
 
-    getAllEpisode = async () => {
-        const res = await this.getResource(`${this._apiBase}/episode`);
+    getAllEpisode = async (offset = this._baseOffset) => {
+        const res = await this.getResource(`${this._apiBase}/episode/?page=${offset}`);
         return res.results.map(this._transformEpisode);
     }
 
-    getAllLocation = async () => {
-        const res = await this.getResource(`${this._apiBase}/location`);
+    getAllLocation = async (offset = this._baseOffset) => {
+        const res = await this.getResource(`${this._apiBase}/location/?page=${offset}`);
         return res.results.map(this._transformLocation);
     }
 
@@ -49,7 +49,7 @@ export default class RickAndMortyService {
             species: char.species,
             image: char.image,
             locationName: char.location.name,
-            charEpisode: char.episode,
+            episode: char.episode[0],
             gender: char.gender
         }
     }
