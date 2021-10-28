@@ -44,12 +44,6 @@ class CharList extends Component {
     //    window.removeEventListener('scroll', this.handleScroll);
     //}
 
-    //componentDidUpdate(prevPops, prevState) {
-    //    if (this.state.filter !== prevState.filter) {
-    //        this.onRequest();
-    //        console.log('update')
-    //    }
-    //}
 
     onRequest = (offset) => {
         this.onCharListLoading();
@@ -138,7 +132,7 @@ class CharList extends Component {
     }
 
     renderItems = (arr) => {
-        const items = arr.map(({ id, name, image, status, locationName, episode, species, gender }) => {
+        const items = arr.map(({ id, name, image, status, locationName, charEpisode, species, gender }) => {
 
             const statusIcon = (status) => {
                 switch (status) {
@@ -218,7 +212,7 @@ class CharList extends Component {
 
                             <div className='char-item__label'>
                                 Episodes:<br />
-                                <span>{episode}</span>
+                                <span>{charEpisode}</span>
                             </div>
                         </div>
                     </div>
@@ -258,7 +252,7 @@ class CharList extends Component {
                 {content}
 
                 <button
-                    className='char__bnt button'
+                    className='button button__load'
                     disabled={newItemLoading}
                     style={{ 'display': charEnded ? 'none' : 'block' }}
                     onClick={() => this.onRequest(offset)}>load more</button>

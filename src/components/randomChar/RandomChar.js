@@ -70,7 +70,7 @@ class RandomChar extends Component {
 
 
                 <button
-                    className='button randomchar__btn'
+                    className='button button__random'
                     onClick={this.updateChar}>
                     try it
                 </button>

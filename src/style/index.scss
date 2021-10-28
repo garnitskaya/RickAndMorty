@@ -61,6 +61,17 @@ input::-webkit-inner-spin-button {
     border: none;
     cursor: pointer;
 
+    &__load {
+        margin: 50px auto;
+    }
+
+    &__random {
+        margin: 15px auto 0px;
+        min-width: 150px;
+        background: $main-color;
+        color: #fff;
+    }
+
     &:hover {
         background-color: $second-color;
         transform: scale(1.1);

@@ -28,12 +28,16 @@ export default class RickAndMortyService {
 
     getAllEpisode = async () => {
         const res = await this.getResource(`${this._apiBase}/episode`);
-        return res.results;
+        return res.results.map(this._transformEpisode);
     }
 
     getAllLocation = async () => {
         const res = await this.getResource(`${this._apiBase}/location`);
-        return res.results;
+        return res.results.map(this._transformLocation);
+    }
+
+    _extractName = () => {
+
     }
 
     _transformCharacter = (char) => {
@@ -45,10 +49,29 @@ export default class RickAndMortyService {
             species: char.species,
             image: char.image,
             locationName: char.location.name,
-            episode: char.episode[0],
+            charEpisode: char.episode,
             gender: char.gender
         }
     }
 
+    _transformEpisode = (episode) => {
+        return {
+            id: episode.id,
+            name: episode.name,
+            characters: episode.characters,
+            url: episode.url
+        }
+    }
+
+    _transformLocation = (location) => {
+        return {
+            id: location.id,
+            name: location.name,
+            type: location.type,
+            dimension: location.dimension,
+            residents: location.residents,
+            url: location.url
+        }
+    }
 }
 

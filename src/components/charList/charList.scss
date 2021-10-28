@@ -47,6 +47,7 @@
         border-radius: 7px;
         //overflow: hidden;
         box-shadow: 0 0 15px rgba(0, 0, 0, .5);
+
     }
 
     &__descr {
@@ -158,10 +159,6 @@
                 border-bottom: none;
             }
         }
-    }
-
-    &__bnt {
-        margin: 50px auto;
     }
 }
 

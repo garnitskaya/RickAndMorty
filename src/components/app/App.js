@@ -5,6 +5,8 @@ import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 import MainMenu from '../mainMenu/MainMenu';
 
 import './app.css';
+import Episodes from '../episodes/Episodes';
+import Location from './../locations/Locations';
 
 const App = () => {
 
@@ -21,6 +23,8 @@ const App = () => {
                 <ErrorBoundary>
                     <CharList />
                 </ErrorBoundary>
+                <Episodes />
+                <Location />
             </main>
         </div>
     )
