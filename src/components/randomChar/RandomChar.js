@@ -4,6 +4,7 @@ import Spinner from '../spinner/Spinner';
 import RickAndMortyService from './../../services/RickAndMortyService';
 
 import './randomChar.scss';
+import { Link } from 'react-router-dom';
 
 class RandomChar extends Component {
     state = {
@@ -59,7 +60,7 @@ class RandomChar extends Component {
 
         const spinner = loading ? <Spinner /> : null;
         const errorMessage = error ? <ErrorMessage /> : null;
-        const content = !(spinner, errorMessage) ? <View char={char} /> : null;
+        const content = !(loading || error) ? <View char={char} /> : null;
 
         return (
             <div className='randomchar'>
@@ -80,13 +81,13 @@ class RandomChar extends Component {
 }
 
 const View = ({ char }) => {
-    const { name, image, url } = char;
+    const { id, name, image } = char;
     return (
         <div className='randomchar__card'>
             <img src={image} alt={name} />
-            <a className='randomchar__name' href={url}>
+            <Link to={`/${id}`} className='randomchar__name' >
                 <h2>{name}</h2>
-            </a>
+            </Link>
         </div >
     )
 }

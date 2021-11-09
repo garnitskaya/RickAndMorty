@@ -1,0 +1,62 @@
+@import '../../../style/variables.scss';
+
+.single {
+
+    &-char {
+        display: flex;
+        margin-top: 50px;
+        display: grid;
+        grid-template-columns: 280px 650px auto;
+        justify-content: center;
+        column-gap: 50px;
+        color: #fff;
+
+        &__img {
+            margin-right: 25px;
+            width: 280px;
+            height: 350px;
+            border-radius: 7px;
+            object-fit: cover;
+        }
+
+        &__name {
+            font-weight: 700;
+            font-size: 40px;
+            line-height: 45px;
+        }
+
+        &__status,
+        &__species,
+        &__gender,
+        &__episode,
+        &__location {
+            margin-top: 10px;
+            font-size: 25px;
+            line-height: 35px;
+            font-weight: 500;
+
+            span {
+                display: inline-block;
+                width: 105px;
+                font-size: 20px;
+                color: grey;
+            }
+        }
+
+        &__episode {
+            display: flex;
+        }
+
+        &__back {
+            font-size: 22px;
+        }
+
+        a {
+            transition: .6s all;
+
+            &:hover {
+                color: $second-color;
+            }
+        }
+    }
+}

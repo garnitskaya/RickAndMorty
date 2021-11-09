@@ -2,6 +2,7 @@ import { Component } from 'react';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 import RickAndMortyService from './../../services/RickAndMortyService';
+import { Link } from 'react-router-dom';
 
 import './episodes.scss';
 
@@ -59,24 +60,25 @@ class Episodes extends Component {
     }
 
     renderItem = (arr) => {
-        return arr.map(({ id, name, characters }) => {
+        return arr.map(({ id, name, characters, airDate }) => {
 
             const character = characters.map(item => {
                 const idRegExp = /\/([0-9]*)$/;
                 const idChar = item.match(idRegExp)[1];
 
                 return (
-                    <a href="#s" key={idChar} >
+                    <Link to={`/${idChar}`} key={idChar} >
                         <img
                             src={`https://rickandmortyapi.com/api/character/avatar/${idChar}.jpeg`}
                             alt='character' />
-                    </a>
+                    </Link>
                 )
             })
 
             return (
                 <div className='episodes__item' key={id}>
-                    <h3 className='episodes__name'> {name}:</h3>
+                    <h3 className='episodes__name'>Episode {id} : {name}</h3>
+                    <span className='episodes__date'>{airDate}</span>
                     <div className='episodes__img'>{character}</div>
                 </div>)
         })

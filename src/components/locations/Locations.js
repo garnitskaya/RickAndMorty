@@ -1,11 +1,12 @@
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 import RickAndMortyService from './../../services/RickAndMortyService';
 
 import './locations.scss';
 
-class Location extends Component {
+class Locations extends Component {
     state = {
         locations: [],
         loading: true,
@@ -65,12 +66,12 @@ class Location extends Component {
                 const idChar = item.match(idRegExp)[1];
 
                 return (
-                    <a href={item}
+                    <Link to={`/${idChar}`}
                         key={idChar}>
                         <img
                             src={`https://rickandmortyapi.com/api/character/avatar/${idChar}.jpeg`}
                             alt="character" />
-                    </a>
+                    </Link>
                 )
             })
 
@@ -78,19 +79,23 @@ class Location extends Component {
                 <div className='locations__items'
                     key={id}>
                     <div className='locations__item'>
-                        name: <br />
-                        <span>{name}</span>
+                        <span> name:</span>
+                        <br />
+                        {name}
                     </div>
                     <div className='locations__item'>
-                        type: <br />
-                        <span> {type}</span>
+                        <span> type:</span>
+                        <br />
+                        {type}
                     </div>
                     <div className='locations__item'>
-                        dimension: <br />
-                        <span>{dimension}</span>
+                        <span>dimension:</span>
+                        <br />
+                        {dimension}
                     </div>
                     <div className='locations__item'>
-                        residents: <br />
+                        <span>residents:</span>
+                        <br />
                         <div
                             className='locations__img'>
                             {resident}
@@ -132,4 +137,4 @@ class Location extends Component {
     }
 }
 
-export default Location;
+export default Locations;

@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import ItemFilter from '../itemFilter/ItemFilter';
@@ -187,7 +188,7 @@ class CharList extends Component {
                     <img className='char__img' src={image} alt={name} />
 
                     <div className='char__block char-item'>
-                        <h2 className='char-item__name'> {name.length > 15 ? `${name.slice(0, 14)}...` : name}</h2>
+                        <Link to={`/${id}`} className='char-item__name'> {name.length > 15 ? `${name.slice(0, 14)}...` : name}</Link>
                         <div className='char-item__block'>
                             <div className='char-item__species'>
                                 Species
@@ -212,7 +213,7 @@ class CharList extends Component {
 
                             <div className='char-item__label'>
                                 First seen in::<br />
-                                <span>{episode}</span>
+                                <span>{episode[0]}</span>
                             </div>
                         </div>
                     </div>
@@ -238,7 +239,7 @@ class CharList extends Component {
 
         const errorMessage = error ? <ErrorMessage /> : null;
         const spinner = loading ? <Spinner /> : null
-        const content = !(loading, errorMessage) ? items : null;
+        const content = !(loading, error) ? items : null;
 
         return (
             <div className='char__list'>

@@ -36,20 +36,21 @@ export default class RickAndMortyService {
         return res.results.map(this._transformLocation);
     }
 
-    _extractName = () => {
-
+    _extractId = (item) => {
+        const idRegExp = /\/([0-9]*)$/;
+        return item.match(idRegExp)[1];
     }
 
     _transformCharacter = (char) => {
         return {
             id: char.id,
-            url: char.url,
             name: char.name,
             status: char.status,
             species: char.species,
             image: char.image,
             locationName: char.location.name,
-            episode: char.episode[0],
+            locationUrl: char.location.url,
+            episode: char.episode,
             gender: char.gender
         }
     }
@@ -58,6 +59,7 @@ export default class RickAndMortyService {
         return {
             id: episode.id,
             name: episode.name,
+            airDate: episode.air_date,
             characters: episode.characters,
             url: episode.url
         }
