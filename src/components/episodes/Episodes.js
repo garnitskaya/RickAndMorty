@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 import RickAndMortyService from './../../services/RickAndMortyService';
@@ -6,60 +6,52 @@ import { Link } from 'react-router-dom';
 
 import './episodes.scss';
 
-class Episodes extends Component {
+const Episodes = () => {
+    const [episodes, setEpisodes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [newItemLoading, setNewItemLoading] = useState(false);
+    const [offset, setOffset] = useState(1);
+    const [ended, setEnded] = useState(false);
 
-    state = {
-        episodes: [],
-        loading: true,
-        error: false,
-        newItemLoading: false,
-        offset: 1,
-        ended: false
-    }
+    const rickAndMortyService = new RickAndMortyService();
 
-    rickAndMortyService = new RickAndMortyService();
+    useEffect(() => {
+        onRequest();
+    }, []);
 
-    componentDidMount() {
-        this.onRequest()
-    }
 
-    onRequest = (offset) => {
-        this.onEpisodeLoading();
-        this.rickAndMortyService
+    const onRequest = (offset) => {
+        onEpisodeLoading();
+        rickAndMortyService
             .getAllEpisode(offset)
-            .then(this.onEpisodeLoaded)
-            .catch(this.OnError)
+            .then(onEpisodeLoaded)
+            .catch(onError)
     }
 
-    onEpisodeLoading = () => {
-        this.setState({
-            newItemLoading: true
-        })
+    const onEpisodeLoading = () => {
+        setNewItemLoading(true);
     }
 
-    onEpisodeLoaded = (newEpisodes) => {
+    const onEpisodeLoaded = (newEpisodes) => {
         let ended = false;
         if (newEpisodes.length < 20) {
             ended = true
         }
 
-        this.setState(({ offset, episodes }) => ({
-            episodes: [...episodes, ...newEpisodes],
-            loading: false,
-            newItemLoading: false,
-            offset: offset + 1,
-            ended: ended
-        }))
+        setEpisodes(episodes => [...episodes, ...newEpisodes]);
+        setLoading(false);
+        setNewItemLoading(false);
+        setOffset(offset => offset + 1);
+        setEnded(ended);
     }
 
-    onError = () => {
-        this.setState({
-            error: true,
-            loading: false
-        })
+    const onError = () => {
+        setError(true);
+        setLoading(false);
     }
 
-    renderItem = (arr) => {
+    const renderItem = (arr) => {
         return arr.map(({ id, name, characters, airDate }) => {
 
             const character = characters.map(item => {
@@ -67,7 +59,7 @@ class Episodes extends Component {
                 const idChar = item.match(idRegExp)[1];
 
                 return (
-                    <Link to={`/${idChar}`} key={idChar} >
+                    <Link to={`/character/${idChar}`} key={idChar} >
                         <img
                             src={`https://rickandmortyapi.com/api/character/avatar/${idChar}.jpeg`}
                             alt='character' />
@@ -84,35 +76,32 @@ class Episodes extends Component {
         })
     }
 
-    render() {
-        const { episodes, loading, error, newItemLoading, offset, ended } = this.state;
-        const episode = this.renderItem(episodes);
-        const spinner = loading ? <Spinner /> : null;
-        const errorMessage = error ? <ErrorMessage /> : null;
-        const content = !(spinner, errorMessage) ? episode : null;
+    const episode = renderItem(episodes);
+    const spinner = loading ? <Spinner /> : null;
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const content = !(spinner, errorMessage) ? episode : null;
 
-        return (
-            <div className='episodes'>
+    return (
+        <div className='episodes'>
 
-                <h2 className='episodes__title'>Episodes </h2>
-                <div className='episodes__list'>
+            <h2 className='episodes__title'>Episodes </h2>
+            <div className='episodes__list'>
 
-                    {spinner}
-                    {errorMessage}
-                    {content}
+                {spinner}
+                {errorMessage}
+                {content}
 
-                </div>
-                <button
-                    className='button__load button'
-                    disabled={newItemLoading}
-                    style={{ 'display': ended ? 'none' : 'block' }}
-                    onClick={() => this.onRequest(offset)}
-                >
-                    load more
-                </button>
             </div>
-        )
-    }
+            <button
+                className='button__load button'
+                disabled={newItemLoading}
+                style={{ 'display': ended ? 'none' : 'block' }}
+                onClick={() => onRequest(offset)}
+            >
+                load more
+            </button>
+        </div>
+    )
 }
 
 export default Episodes;

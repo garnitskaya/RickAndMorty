@@ -3,7 +3,6 @@
 .single {
 
     &-char {
-        display: flex;
         margin-top: 50px;
         display: grid;
         grid-template-columns: 280px 650px auto;
@@ -47,8 +46,26 @@
             display: flex;
         }
 
-        &__back {
+        &__back,
+        &__next {
+            display: block;
+            height: 35px;
+            color: #fff;
             font-size: 22px;
+            line-height: 35px;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: .6s all;
+            background: none;
+            border: none;
+
+            i {
+                margin: 0 3px;
+            }
+
+            &:hover {
+                color: $second-color;
+            }
         }
 
         a {

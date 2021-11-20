@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
@@ -6,59 +6,52 @@ import RickAndMortyService from './../../services/RickAndMortyService';
 
 import './locations.scss';
 
-class Locations extends Component {
-    state = {
-        locations: [],
-        loading: true,
-        error: false,
-        newItemLoading: false,
-        offset: 1,
-        ended: false
-    }
+const Locations = (props) => {
+    const [locations, setLocations] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [newItemLoading, setNewItemLoading] = useState(false);
+    const [offset, setOffset] = useState(1);
+    const [ended, setEnded] = useState(false);
 
-    rickandmortyapi = new RickAndMortyService();
 
-    componentDidMount() {
-        this.onRequest();
-    }
+    const rickandmortyapi = new RickAndMortyService();
 
-    onRequest = (offset) => {
-        this.onLocationLoading();
-        this.rickandmortyapi
+    useEffect(() => {
+        onRequest();
+    }, []);
+
+    const onRequest = (offset) => {
+        onLocationLoading();
+        rickandmortyapi
             .getAllLocation(offset)
-            .then(this.onLocationLoaded)
-            .catch(this.onError)
+            .then(onLocationLoaded)
+            .catch(onError)
     }
 
-    onLocationLoading = () => {
-        this.setState({
-            newItemLoading: true
-        })
+    const onLocationLoading = () => {
+        setNewItemLoading(true);
     }
 
-    onLocationLoaded = (newLocations) => {
+    const onLocationLoaded = (newLocations) => {
         let ended = false;
         if (newLocations.length < 20) {
             ended = true;
         }
 
-        this.setState(({ offset, locations }) => ({
-            locations: [...locations, ...newLocations],
-            loading: false,
-            newItemLoading: false,
-            offset: offset + 1,
-            ended: ended
-        }))
+        setLocations(locations => [...locations, ...newLocations]);
+        setLoading(false);
+        setNewItemLoading(false);
+        setOffset(offset => offset + 1);
+        setEnded(ended);
     }
 
-    onError = () => {
-        this.setState({
-            error: true,
-            loading: false
-        })
+    const onError = () => {
+        setError(true);
+        setLoading(false);
     }
 
-    renderItem = (arr) => {
+    const renderItem = (arr) => {
         return arr.map(({ id, name, type, dimension, residents }) => {
 
             const resident = residents.map(item => {
@@ -66,7 +59,7 @@ class Locations extends Component {
                 const idChar = item.match(idRegExp)[1];
 
                 return (
-                    <Link to={`/${idChar}`}
+                    <Link to={`/character/${idChar}`}
                         key={idChar}>
                         <img
                             src={`https://rickandmortyapi.com/api/character/avatar/${idChar}.jpeg`}
@@ -105,36 +98,31 @@ class Locations extends Component {
         })
     }
 
+    const location = renderItem(locations);
+    const spinner = loading ? <Spinner /> : null;
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const content = !(spinner, errorMessage) ? location : null;
 
-    render() {
-        const { locations, loading, error, offset, newItemLoading, ended } = this.state;
-        const location = this.renderItem(locations);
-        const spinner = loading ? <Spinner /> : null;
-        const errorMessage = error ? <ErrorMessage /> : null;
-        const content = !(spinner, errorMessage) ? location : null;
+    return (
+        <div className='locations'>
+            <h2 className='locations__title'>Locations</h2>
+            <div className='locations__list'>
 
-        return (
-            <div className='locations'>
-                <h2 className='locations__title'>Locations</h2>
-                <div className='locations__list'>
+                {spinner}
+                {errorMessage}
+                {content}
 
-                    {spinner}
-                    {errorMessage}
-                    {content}
-
-                </div>
-                <button
-                    className='button button__load'
-                    disabled={newItemLoading}
-                    style={{ 'display': ended ? 'none' : 'block' }}
-                    onClick={() => this.onRequest(offset)}
-                >
-                    load more
-                </button>
             </div>
-
-        )
-    }
+            <button
+                className='button button__load'
+                disabled={newItemLoading}
+                style={{ 'display': ended ? 'none' : 'block' }}
+                onClick={() => onRequest(offset)}
+            >
+                load more
+            </button>
+        </div>
+    )
 }
 
 export default Locations;

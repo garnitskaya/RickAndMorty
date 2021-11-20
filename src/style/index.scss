@@ -61,19 +61,33 @@ input::-webkit-inner-spin-button {
     border: none;
     cursor: pointer;
 
-    &__load {
-        margin: 50px auto;
+    &:disabled {
+        filter: grayscale(.5);
     }
 
-    &__random {
-        margin: 15px auto 0px;
-        min-width: 150px;
-        background: $main-color;
-        color: #fff;
+    &__load {
+        margin: 50px auto;
     }
 
     &:hover {
         background-color: $second-color;
         transform: scale(1.1);
     }
+
+    &__random {
+        position: absolute;
+        min-width: 150px;
+        bottom: 25px;
+        left: 50%;
+        right: 50%;
+        transform: translateX(-50%);
+        background: $main-color;
+        color: #fff;
+
+        &:hover {
+            background-color: $second-color;
+            transform: translateX(-50%) scale(1.1);
+        }
+    }
+
 }

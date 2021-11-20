@@ -1,11 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Header from '../header/Header';
-//import CharList from './../charList/CharList';
-//import RandomChar from '../randomChar/RandomChar';
-//import ErrorBoundary from '../errorBoundary/ErrorBoundary';
-//import Episodes from '../episodes/Episodes';
-//import Locations from './../locations/Locations';
 import MainMenu from './../mainMenu/MainMenu';
 import { Page404, EpisodesPage, LocationsPage, MainPage, SingleCharPage } from '../pages';
 
@@ -30,7 +25,7 @@ const App = () => {
                             <Route exact path='/locations'>
                                 <LocationsPage />
                             </Route>
-                            <Route exact path="/:charId">
+                            <Route exact path="/character/:charId">
                                 <SingleCharPage />
                             </Route>
                             <Route path="*">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useHistory, useLocation } from 'react-router-dom';
 import ErrorMessage from '../../errorMessage/ErrorMessage';
 import Spinner from '../../spinner/Spinner';
 import RickAndMortyService from '../../../services/RickAndMortyService';
@@ -8,6 +8,19 @@ import './singleCharPage.scss';
 
 const SingleCharPage = () => {
     const { charId } = useParams();
+    const history = useHistory();
+    const location = useLocation();
+    const next = Number(charId) + 1;
+
+    //console.log(location)
+
+    const nextChar = () => {
+        history.push(`/character/${next}`);
+    }
+
+    const goBack = () => {
+        history.goBack();
+    };
 
     const [char, setChar] = useState({});
     const [loading, setLoading] = useState(true);
@@ -43,7 +56,7 @@ const SingleCharPage = () => {
 
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error || !char) ? <View char={char} /> : null;
+    const content = !(loading || error || !char) ? <View char={char} goBack={goBack} nextChar={nextChar} /> : null;
 
     return (
         <>
@@ -54,7 +67,7 @@ const SingleCharPage = () => {
     )
 }
 
-const View = ({ char }) => {
+const View = ({ char, goBack, nextChar }) => {
     const { name, status, species, image, locationName, gender, episode, locationUrl } = char;
 
     return (
@@ -81,7 +94,22 @@ const View = ({ char }) => {
                     </div>
                 </div>
             </div>
-            <Link className='single-char__back' to='/'>Back to all</Link>
+            <div>
+                <button
+                    type='button'
+                    className='single-char__next'
+                    onClick={nextChar}>
+                    Next
+                    <i className="fas fa-chevron-right"></i>
+                </button>
+                <button
+                    type='button'
+                    className='single-char__back'
+                    onClick={goBack}>
+                    <i className="fas fa-chevron-left"></i>
+                    back
+                </button>
+            </div>
         </div>
     )
 }

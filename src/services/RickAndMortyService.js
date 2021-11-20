@@ -11,6 +11,11 @@ export default class RickAndMortyService {
         return await res.json();
     }
 
+    //getAllPages = async () => {
+    //    const res = await this.getResource(`${this._apiBase}/character`);
+    //    return res.info.pages;
+    //}
+
     getAllCharacters = async (offset = this._baseOffset) => {
         const res = await this.getResource(`${this._apiBase}/character/?page=${offset}`);
         return res.results.map(this._transformCharacter);
@@ -20,11 +25,6 @@ export default class RickAndMortyService {
         const res = await this.getResource(`${this._apiBase}/character/${id}`);
         return this._transformCharacter(res);
     }
-
-    //getAllCharactersSpecies = async (offset, species = '') => {
-    //    const res = await this.getResource(`${this._apiBase}/character/?page=${offset}&species=${species}`);
-    //    return res.results.map(this._transformCharacter);
-    //}
 
     getAllEpisode = async (offset = this._baseOffset) => {
         const res = await this.getResource(`${this._apiBase}/episode/?page=${offset}`);

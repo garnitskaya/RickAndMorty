@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -10,79 +10,56 @@ import Spinner from './../spinner/Spinner';
 import './charList.scss';
 
 
-class CharList extends Component {
+const CharList = () => {
+    const [charList, setCharList] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [newItemLoading, setNewItemLoading] = useState(false);
+    const [offset, setOffset] = useState(1);
+    const [charEnded, setCharEnded] = useState(false);
+    const [term, setTerm] = useState('');
+    const [filter, setFilter] = useState('all');
+    const [selectedChar, setSelectedChar] = useState(null);
+    const [showInfo, setShowInfo] = useState(false);
 
-    state = {
-        charList: [],
-        loading: true,
-        error: false,
-        newItemLoading: false,
-        offset: 1,
-        charEnded: false,
-        term: '',
-        filter: 'all',
-        selectedChar: null,
-        showInfo: false
-    }
+    const rickAndMortyService = new RickAndMortyService();
 
-    rickAndMortyService = new RickAndMortyService();
-
-    componentDidMount() {
-        this.onRequest();
-        //window.addEventListener('scroll', this.handleScroll)
-    }
-
-    //handleScroll = () => {
-    //    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) { //*прокрученая часть+видимая часть, если сумма будет>= scrollHeight, то это значит что пользователь долистал до конца
-    //        this.onRequest(this.state.offset);
-    //        if (this.state.offset >= 34) {
-    //            window.removeEventListener('scroll', this.handleScroll);
-    //        }
-    //    }
-    //}
-
-    //componentWillUnmount() {
-    //    window.removeEventListener('scroll', this.handleScroll);
-    //}
+    useEffect(() => {
+        onRequest();
+    }, []);
 
 
-    onRequest = (offset) => {
-        this.onCharListLoading();
-        this.rickAndMortyService
+    const onRequest = (offset) => {
+        onCharListLoading();
+        rickAndMortyService
             .getAllCharacters(offset)
-            .then(this.onCharListLoaded)
-            .catch(this.onError)
+            .then(onCharListLoaded)
+            .catch(onError)
     }
 
-    onCharListLoading = () => {
-        this.setState({
-            newItemLoading: true
-        })
+    const onCharListLoading = () => {
+        setNewItemLoading(true);
     }
 
-    onCharListLoaded = (newCharList) => {
+    const onCharListLoaded = (newCharList) => {
         let ended = false;
         if (newCharList.length < 20) {
             ended = true;
         }
 
-        this.setState(({ charList, offset }) => ({
-            charList: [...charList, ...newCharList],
-            loading: false,
-            newItemLoading: false,
-            offset: offset + 1,
-            charEnded: ended
-        }))
+        setCharList(charList => [...charList, ...newCharList]);
+        setLoading(false);
+        setNewItemLoading(false);
+        setOffset(offset => offset + 1);
+        setCharEnded(ended);
     }
 
-    onError = () => {
-        this.setState({
-            error: true,
-            loading: false
-        })
+    const onError = () => {
+        setError(true);
+        setLoading(false);
     }
 
-    searchItem = (items, term) => {
+    const searchItem = (items, term) => {
         if (term.length === 0) {
             return items;
         }
@@ -90,11 +67,11 @@ class CharList extends Component {
         return items.filter(item => item.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
     }
 
-    onUpdateSearch = (term) => {
-        this.setState({ term })
+    const onUpdateSearch = (term) => {
+        setTerm(term);
     }
 
-    filterItem = (charList, filter) => {
+    const filterItem = (charList, filter) => {
         switch (filter) {
             case "human":
                 return charList.filter(item => item.species === 'Human');
@@ -121,18 +98,16 @@ class CharList extends Component {
         }
     }
 
-    onFilterChange = (filter) => {
-        this.setState({ filter })
+    const onFilterChange = (filter) => {
+        setFilter(filter);
     }
 
-    onShowInfo = (id) => {
-        this.setState({
-            selectedChar: id,
-            showInfo: !this.state.showInfo
-        })
+    const onShowInfo = (id) => {
+        setSelectedChar(id);
+        setShowInfo(showInfo => !showInfo);
     }
 
-    renderItems = (arr) => {
+    const renderItems = (arr) => {
         const items = arr.map(({ id, name, image, status, locationName, episode, species, gender }) => {
 
             const statusIcon = (status) => {
@@ -173,7 +148,6 @@ class CharList extends Component {
                 }
             }
 
-            const { selectedChar, showInfo } = this.state;
             const active = selectedChar === id && showInfo ? 'active' : '';
 
             return (
@@ -181,14 +155,14 @@ class CharList extends Component {
 
                     <button
                         className='char__descr'
-                        onClick={() => this.onShowInfo(id)}>
+                        onClick={() => onShowInfo(id)}>
                         <i className="descr far fa-eye"></i>
                     </button>
 
                     <img className='char__img' src={image} alt={name} />
 
                     <div className='char__block char-item'>
-                        <Link to={`/${id}`} className='char-item__name'> {name.length > 15 ? `${name.slice(0, 14)}...` : name}</Link>
+                        <Link to={`/character/${id}`} className='char-item__name'>{name.length > 15 ? `${name.slice(0, 14)}...` : name}</Link>
                         <div className='char-item__block'>
                             <div className='char-item__species'>
                                 Species
@@ -233,34 +207,30 @@ class CharList extends Component {
         )
     }
 
-    render() {
-        const { charList, loading, error, newItemLoading, offset, charEnded, term, filter } = this.state;
-        const items = this.renderItems(this.filterItem((this.searchItem(charList, term)), filter));
+    const items = renderItems(filterItem((searchItem(charList, term)), filter));
 
-        const errorMessage = error ? <ErrorMessage /> : null;
-        const spinner = loading ? <Spinner /> : null
-        const content = !(loading, error) ? items : null;
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const spinner = loading ? <Spinner /> : null
+    const content = !(loading, error) ? items : null;
 
-        return (
-            <div className='char__list'>
+    return (
+        <div className='char__list'>
 
-                <div className='char__select'>
-                    <SearchPanel onUpdateSearch={this.onUpdateSearch} />
-                    <ItemFilter onFilterChange={this.onFilterChange} filter={filter} />
-                </div>
-
-                {errorMessage}
-                {spinner}
-                {content}
-
-                <button
-                    className='button button__load'
-                    disabled={newItemLoading}
-                    style={{ 'display': charEnded ? 'none' : 'block' }}
-                    onClick={() => this.onRequest(offset)}>load more</button>
+            <div className='char__select'>
+                <SearchPanel onUpdateSearch={onUpdateSearch} />
+                <ItemFilter onFilterChange={onFilterChange} filter={filter} />
             </div>
-        )
-    }
+            {errorMessage}
+            {spinner}
+            {content}
+
+            <button
+                className='button button__load'
+                disabled={newItemLoading}
+                style={{ 'display': charEnded ? 'none' : 'block' }}
+                onClick={() => onRequest(offset)}>load more</button>
+        </div>
+    )
 }
 
 export default CharList
