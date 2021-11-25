@@ -1,38 +1,27 @@
-@import '../../style/variables.scss';
+@import '../../../style/variables.scss';
 
-.episodes {
+.single-location {
     position: relative;
     margin: 0 auto;
     max-width: 1200px;
     color: #fff;
-    text-align: center;
 
-    &__title {
-        margin-top: 30px;
-        font-size: 50px;
-        font-weight: 900;
+    &__items {
+        padding: 35px 50px;
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #9e9e9e;
     }
 
     &__item {
-        margin-top: 45px;
         font-size: 25px;
+        line-height: 35px;
         font-weight: 500;
-    }
 
-    &__name {
-        display: block;
-        font-size: 30px;
-        font-weight: 700;
-        transition: .6s all;
-
-        &:hover {
-            color: $second-color;
+        span {
+            color: grey;
+            font-size: 20px;
         }
-    }
-
-    &__date {
-        font-size: 15px;
-        font-weight: 400;
     }
 
     &__img {
@@ -61,6 +50,34 @@
                 box-shadow: 5px 5px 35px rgba(0, 0, 0, .9);
                 z-index: 5;
             }
+        }
+    }
+
+    &__buttons {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    &__back,
+    &__next {
+        display: block;
+        height: 35px;
+        color: #fff;
+        font-size: 22px;
+        line-height: 35px;
+        font-weight: 500;
+        text-transform: uppercase;
+        transition: .6s all;
+        background: none;
+        border: none;
+
+        i {
+            margin: 0 3px;
+        }
+
+        &:hover {
+            color: $second-color;
         }
     }
 }

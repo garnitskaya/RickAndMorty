@@ -2,23 +2,18 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import ItemFilter from '../itemFilter/ItemFilter';
 import RickAndMortyService from './../../services/RickAndMortyService';
-import SearchPanel from './../searchPanel/SearchPanel';
 import Spinner from './../spinner/Spinner';
 
 import './charList.scss';
 
-
-const CharList = () => {
+const CharList = (props) => {
     const [charList, setCharList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(1);
     const [charEnded, setCharEnded] = useState(false);
-    const [term, setTerm] = useState('');
-    const [filter, setFilter] = useState('all');
     const [selectedChar, setSelectedChar] = useState(null);
     const [showInfo, setShowInfo] = useState(false);
 
@@ -26,6 +21,7 @@ const CharList = () => {
 
     useEffect(() => {
         onRequest();
+        // eslint-disable-next-line
     }, []);
 
 
@@ -57,49 +53,6 @@ const CharList = () => {
     const onError = () => {
         setError(true);
         setLoading(false);
-    }
-
-    const searchItem = (items, term) => {
-        if (term.length === 0) {
-            return items;
-        }
-
-        return items.filter(item => item.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
-    }
-
-    const onUpdateSearch = (term) => {
-        setTerm(term);
-    }
-
-    const filterItem = (charList, filter) => {
-        switch (filter) {
-            case "human":
-                return charList.filter(item => item.species === 'Human');
-            case "alien":
-                return charList.filter(item => item.species === 'Alien');
-            case "humanoid":
-                return charList.filter(item => item.species === 'Humanoid');
-            case "robot":
-                return charList.filter(item => item.species === 'Robot');
-            case "animal":
-                return charList.filter(item => item.species === 'Animal');
-            case "disease":
-                return charList.filter(item => item.species === 'Disease');
-            case "mythologicalCreature":
-                return charList.filter(item => item.species === 'Mythological Creature');
-            case "poopybutthole":
-                return charList.filter(item => item.species === 'Poopybutthole');
-            case "cronenberg":
-                return charList.filter(item => item.species === 'Cronenberg');
-            case "unknown":
-                return charList.filter(item => item.species === 'unknown');
-            default:
-                return charList;
-        }
-    }
-
-    const onFilterChange = (filter) => {
-        setFilter(filter);
     }
 
     const onShowInfo = (id) => {
@@ -152,17 +105,14 @@ const CharList = () => {
 
             return (
                 <li className='char__card' key={id} >
-
                     <button
                         className='char__descr'
                         onClick={() => onShowInfo(id)}>
                         <i className="descr far fa-eye"></i>
                     </button>
-
                     <img className='char__img' src={image} alt={name} />
-
                     <div className='char__block char-item'>
-                        <Link to={`/character/${id}`} className='char-item__name'>{name.length > 15 ? `${name.slice(0, 14)}...` : name}</Link>
+                        <Link to={`/characters/${id}`} className='char-item__name'>{name.length > 15 ? `${name.slice(0, 14)}...` : name}</Link>
                         <div className='char-item__block'>
                             <div className='char-item__species'>
                                 Species
@@ -184,10 +134,9 @@ const CharList = () => {
                                 Location:<br />
                                 <span>{locationName}</span>
                             </div>
-
                             <div className='char-item__label'>
                                 First seen in::<br />
-                                <span>{episode[0]}</span>
+                                <span>Episodes № {episode}</span>
                             </div>
                         </div>
                     </div>
@@ -207,6 +156,7 @@ const CharList = () => {
         )
     }
 
+    const { filterItem, searchItem, term, filter } = props;
     const items = renderItems(filterItem((searchItem(charList, term)), filter));
 
     const errorMessage = error ? <ErrorMessage /> : null;
@@ -215,15 +165,9 @@ const CharList = () => {
 
     return (
         <div className='char__list'>
-
-            <div className='char__select'>
-                <SearchPanel onUpdateSearch={onUpdateSearch} />
-                <ItemFilter onFilterChange={onFilterChange} filter={filter} />
-            </div>
             {errorMessage}
             {spinner}
             {content}
-
             <button
                 className='button button__load'
                 disabled={newItemLoading}

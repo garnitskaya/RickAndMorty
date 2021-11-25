@@ -18,6 +18,7 @@ const Episodes = () => {
 
     useEffect(() => {
         onRequest();
+        // eslint-disable-next-line
     }, []);
 
 
@@ -53,25 +54,11 @@ const Episodes = () => {
 
     const renderItem = (arr) => {
         return arr.map(({ id, name, characters, airDate }) => {
-
-            const character = characters.map(item => {
-                const idRegExp = /\/([0-9]*)$/;
-                const idChar = item.match(idRegExp)[1];
-
-                return (
-                    <Link to={`/character/${idChar}`} key={idChar} >
-                        <img
-                            src={`https://rickandmortyapi.com/api/character/avatar/${idChar}.jpeg`}
-                            alt='character' />
-                    </Link>
-                )
-            })
-
             return (
                 <div className='episodes__item' key={id}>
-                    <h3 className='episodes__name'>Episode {id} : {name}</h3>
+                    <Link to={`/episodes/${id}`} className='episodes__name'>Episode № {id} : {name}</Link>
                     <span className='episodes__date'>{airDate}</span>
-                    <div className='episodes__img'>{character}</div>
+                    <div className='episodes__img'>{characters}</div>
                 </div>)
         })
     }

@@ -1,3 +1,5 @@
+@import './../../style/variables.scss';
+
 .locations {
     position: relative;
     //min-height: 500px;
@@ -27,6 +29,14 @@
         span {
             color: grey;
             font-size: 20px;
+        }
+    }
+
+    &__name {
+        transition: .6s all;
+
+        &:hover {
+            color: $second-color;
         }
     }
 
@@ -60,7 +70,7 @@
     }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 576px) {
     .locations {
         &__items {
             padding: 10px 0;

@@ -19,6 +19,7 @@ const Locations = (props) => {
 
     useEffect(() => {
         onRequest();
+        // eslint-disable-next-line
     }, []);
 
     const onRequest = (offset) => {
@@ -53,28 +54,17 @@ const Locations = (props) => {
 
     const renderItem = (arr) => {
         return arr.map(({ id, name, type, dimension, residents }) => {
-
-            const resident = residents.map(item => {
-                const idRegExp = /\/([0-9]*)$/;
-                const idChar = item.match(idRegExp)[1];
-
-                return (
-                    <Link to={`/character/${idChar}`}
-                        key={idChar}>
-                        <img
-                            src={`https://rickandmortyapi.com/api/character/avatar/${idChar}.jpeg`}
-                            alt="character" />
-                    </Link>
-                )
-            })
-
             return (
                 <div className='locations__items'
                     key={id}>
                     <div className='locations__item'>
                         <span> name:</span>
                         <br />
-                        {name}
+                        <Link
+                            to={`/locations/${id}`}
+                            className='locations__name'>
+                            {name}
+                        </Link>
                     </div>
                     <div className='locations__item'>
                         <span> type:</span>
@@ -91,7 +81,7 @@ const Locations = (props) => {
                         <br />
                         <div
                             className='locations__img'>
-                            {resident}
+                            {residents}
                         </div>
                     </div>
                 </div>)

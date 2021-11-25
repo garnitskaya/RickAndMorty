@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default class RickAndMortyService {
     _apiBase = 'https://rickandmortyapi.com/api';
     _baseOffset = 1;
@@ -31,14 +33,33 @@ export default class RickAndMortyService {
         return res.results.map(this._transformEpisode);
     }
 
+    getEpisode = async (id) => {
+        const res = await this.getResource(`${this._apiBase}/episode/${id}`);
+        return this._transformEpisode(res);
+    }
+
+
     getAllLocation = async (offset = this._baseOffset) => {
         const res = await this.getResource(`${this._apiBase}/location/?page=${offset}`);
         return res.results.map(this._transformLocation);
     }
 
-    _extractId = (item) => {
-        const idRegExp = /\/([0-9]*)$/;
-        return item.match(idRegExp)[1];
+    getLocation = async (id) => {
+        const res = await this.getResource(`${this._apiBase}/location/${id}`);
+        return this._transformLocation(res);
+    }
+
+    elements = (element, children) => {
+        return element.map(item => {
+            let id = item.match(/\/([0-9]*)$/)[1];
+            return (
+                <Link to={`/characters/${id}`} key={id}>
+                    {children}
+                    <img
+                        src={`https://rickandmortyapi.com/api/character/avatar/${id}.jpeg`}
+                        alt="character" />
+                </Link>)
+        })
     }
 
     _transformCharacter = (char) => {
@@ -49,8 +70,16 @@ export default class RickAndMortyService {
             species: char.species,
             image: char.image,
             locationName: char.location.name,
-            locationUrl: char.location.url,
-            episode: char.episode,
+            locationUrl: char.location.url.slice(41),
+            episode: char.episode[0].match(/\/([0-9]*)$/)[1],
+            episodes: char.episode.map(item => {
+                let id = item.match(/\/([0-9]*)$/)[1];
+                return (
+                    <Link key={id} to={`/episodes/${id}`}>
+                        Episodes № {id}
+                    </Link>
+                )
+            }),
             gender: char.gender
         }
     }
@@ -60,7 +89,7 @@ export default class RickAndMortyService {
             id: episode.id,
             name: episode.name,
             airDate: episode.air_date,
-            characters: episode.characters,
+            characters: this.elements(episode.characters),
             url: episode.url
         }
     }
@@ -71,7 +100,7 @@ export default class RickAndMortyService {
             name: location.name,
             type: location.type,
             dimension: location.dimension,
-            residents: location.residents,
+            residents: this.elements(location.residents),
             url: location.url
         }
     }

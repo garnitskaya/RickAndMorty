@@ -44,6 +44,12 @@
 
         &__episode {
             display: flex;
+
+            &-items {
+                display: grid;
+                grid-template-columns: repeat(2, auto);
+                gap: 10px 20px;
+            }
         }
 
         &__back,
@@ -73,6 +79,72 @@
 
             &:hover {
                 color: $second-color;
+            }
+        }
+    }
+}
+
+@media(max-width: 1200px) {
+    .single {
+        &-char {
+            padding-bottom: 30px;
+            position: relative;
+            grid-template-columns: 280px auto;
+
+            &__buttons {
+                position: absolute;
+                bottom: -30px;
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media(max-width: 992px) {
+    .single {
+        &-char {
+            grid-template-columns: auto;
+            justify-items: center;
+
+            &__img {
+                margin-right: 0;
+            }
+
+            &__name {
+                margin-top: 15px;
+                text-align: center;
+            }
+
+            &__episode {
+                &-items {
+                    grid-template-columns: auto;
+                }
+            }
+        }
+    }
+}
+
+@media(max-width: 576px) {
+    .single {
+        &-char {
+            &__name {
+                font-size: 28px;
+            }
+
+            &__status,
+            &__species,
+            &__gender,
+            &__episode,
+            &__location {
+                font-size: 20px;
+                line-height: 28px;
+
+                span {
+                    width: 105px;
+                    font-size: 17px;
+                }
             }
         }
     }

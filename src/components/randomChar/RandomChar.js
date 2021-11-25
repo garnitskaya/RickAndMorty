@@ -18,6 +18,7 @@ const RandomChar = () => {
         const timeId = setInterval(updateChar, 100000);
 
         return () => clearInterval(timeId);
+        // eslint-disable-next-line
     }, []);
 
     const updateChar = () => {
@@ -69,7 +70,7 @@ const View = ({ char }) => {
     return (
         <div className='randomchar__card'>
             <img src={image} alt={name} />
-            <Link to={`/character/${id}`} className='randomchar__name' >
+            <Link to={`/characters/${id}`} className='randomchar__name' >
                 <h2>{name}</h2>
             </Link>
         </div >
