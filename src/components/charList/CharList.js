@@ -207,7 +207,6 @@ const CharList = (props) => {
     const spinner = loading ? <Spinner /> : null
     const content = !(loading || error) ? items : null;
 
-    console.log(offset)
     return (
         <div className='char__list'>
             <div className='char__select'>

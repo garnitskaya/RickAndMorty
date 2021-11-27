@@ -48,6 +48,17 @@ input::-webkit-inner-spin-button {
 }
 
 
+.content {
+    padding: 60px 20px;
+    min-height: 85vh;
+    background: $main-color;
+    box-shadow: 0 0 15px rgba(5, 21, 48, .8);
+
+    .spinner {
+        top: 35%;
+    }
+}
+
 .button {
     display: block;
     padding: 7px 30px;
