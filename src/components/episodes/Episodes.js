@@ -66,7 +66,7 @@ const Episodes = () => {
     const episode = renderItem(episodes);
     const spinner = loading ? <Spinner /> : null;
     const errorMessage = error ? <ErrorMessage /> : null;
-    const content = !(spinner, errorMessage) ? episode : null;
+    const content = !(loading || error) ? episode : null;
 
     return (
         <div className='episodes'>

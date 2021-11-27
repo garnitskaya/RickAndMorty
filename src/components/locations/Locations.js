@@ -91,7 +91,7 @@ const Locations = (props) => {
     const location = renderItem(locations);
     const spinner = loading ? <Spinner /> : null;
     const errorMessage = error ? <ErrorMessage /> : null;
-    const content = !(spinner, errorMessage) ? location : null;
+    const content = !(loading || error) ? location : null;
 
     return (
         <div className='locations'>

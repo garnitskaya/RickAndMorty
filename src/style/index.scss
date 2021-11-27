@@ -65,6 +65,11 @@ input::-webkit-inner-spin-button {
         filter: grayscale(.5);
     }
 
+    &__small {
+        padding: 7px;
+        font-size: 17px;
+    }
+
     &__load {
         margin: 75px auto 50px;
     }

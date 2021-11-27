@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import RickAndMortyService from './../../services/RickAndMortyService';
 import Spinner from './../spinner/Spinner';
+import SearchPanel from './../searchPanel/SearchPanel';
+import ItemFilter from './../itemFilter/ItemFilter';
 
 import './charList.scss';
 
@@ -15,22 +17,49 @@ const CharList = (props) => {
     const [offset, setOffset] = useState(1);
     const [charEnded, setCharEnded] = useState(false);
     const [selectedChar, setSelectedChar] = useState(null);
+    const [term, setTerm] = useState('');
     const [showInfo, setShowInfo] = useState(false);
+    const [filter, setFilter] = useState('');
 
     const rickAndMortyService = new RickAndMortyService();
 
     useEffect(() => {
-        onRequest();
+        onRequest(offset, filter);
         // eslint-disable-next-line
     }, []);
 
-
-    const onRequest = (offset) => {
+    const onRequest = (offset, filter) => {
         onCharListLoading();
         rickAndMortyService
-            .getAllCharacters(offset)
+            .getAllCharacters(offset, filter)
             .then(onCharListLoaded)
             .catch(onError)
+    }
+
+    const updateFilterChar = (offset, filter) => {
+        onCharListLoading();
+        rickAndMortyService
+            .getAllCharacters(offset, filter)
+            .then(onCharFilterLoaded)
+            .catch(onError)
+    }
+
+    const onCharFilterLoaded = (charList) => {
+        let ended = false;
+        if (charList.length < 20) {
+            ended = true;
+        }
+
+        let offset = 1;
+        if (offset < 2) {
+            offset = 2;
+        }
+
+        setCharList(charList);
+        setLoading(false);
+        setNewItemLoading(false);
+        setCharEnded(ended);
+        setOffset(offset);
     }
 
     const onCharListLoading = () => {
@@ -46,8 +75,9 @@ const CharList = (props) => {
         setCharList(charList => [...charList, ...newCharList]);
         setLoading(false);
         setNewItemLoading(false);
-        setOffset(offset => offset + 1);
+        setOffset(offset + 1);
         setCharEnded(ended);
+        setFilter(filter)
     }
 
     const onError = () => {
@@ -156,15 +186,34 @@ const CharList = (props) => {
         )
     }
 
-    const { filterItem, searchItem, term, filter } = props;
-    const items = renderItems(filterItem((searchItem(charList, term)), filter));
+    const searchItem = (items, term) => {
+        if (term.length === 0) {
+            return items;
+        }
+        return items.filter(item => item.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
+    }
+
+    const onUpdateSearch = (term) => {
+        setTerm(term);
+    }
+
+    const onFilterChange = (filter) => {
+        setFilter(filter);
+    }
+
+    const items = renderItems(searchItem(charList, term));
 
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null
-    const content = !(loading, error) ? items : null;
+    const content = !(loading || error) ? items : null;
 
+    console.log(offset)
     return (
         <div className='char__list'>
+            <div className='char__select'>
+                <SearchPanel onUpdateSearch={onUpdateSearch} />
+                <ItemFilter onFilterChange={onFilterChange} updateFilterChar={updateFilterChar} />
+            </div>
             {errorMessage}
             {spinner}
             {content}
@@ -172,7 +221,7 @@ const CharList = (props) => {
                 className='button button__load'
                 disabled={newItemLoading}
                 style={{ 'display': charEnded ? 'none' : 'block' }}
-                onClick={() => onRequest(offset)}>load more</button>
+                onClick={() => onRequest(offset, filter)}>load more</button>
         </div>
     )
 }

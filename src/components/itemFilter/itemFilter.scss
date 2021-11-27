@@ -1,13 +1,19 @@
 @import '../../style/variables.scss';
 
 .item-filter {
-    font-size: 22px;
-    font-weight: 500;
-    border-radius: 5px;
-    width: fit-content;
-    text-align: center;
+    display: flex;
+
+    &__select {
+        margin-right: 10px;
+        font-size: 22px;
+        font-weight: 500;
+        border-radius: 5px;
+        width: max-content;
+        text-align: center;
+    }
 
     &__option {
+
         &:not(:checked) {
             background-color: $main-color;
             color: $second-color;

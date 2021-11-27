@@ -1,50 +1,56 @@
-import { useState } from 'react';
+import { Field, Form, Formik } from 'formik';
 import './itemFilter.scss';
 
 const ItemFilter = (props) => {
-    const [value, setValue] = useState('all');
-
     const species = [
-        { value: 'all', label: 'All' },
-        { value: 'human', label: 'Human' },
-        { value: 'alien', label: 'Alien' },
-        { value: 'humanoid', label: 'Humanoid' },
-        { value: 'robot', label: 'Robot' },
-        { value: 'animal', label: 'Animal' },
-        { value: 'disease', label: 'Disease' },
-        { value: 'mythologicalCreature', label: 'Mythological Creature' },
-        { value: 'poopybutthole', label: 'Poopybutthole' },
-        { value: 'cronenberg', label: 'Cronenberg' },
-        { value: 'unknown', label: 'Unknown' },
+        { value: '', label: 'All' },
+        { value: 'Human', label: 'Human' },
+        { value: 'Alien', label: 'Alien' },
+        { value: 'Humanoid', label: 'Humanoid' },
+        { value: 'Robot', label: 'Robot' },
+        { value: 'Animal', label: 'Animal' },
+        { value: 'Disease', label: 'Disease' },
+        { value: 'Mythological Creature', label: 'Mythological Creature' },
+        { value: 'Poopybutthole', label: 'Poopybutthole' },
+        { value: 'Cronenberg', label: 'Cronenberg' },
+        { value: 'Unknown', label: 'Unknown' },
     ]
 
-    const onChangeSelect = (e) => {
-        setValue(e.target.value);
-        props.onFilterChange(e.target.value)
-    }
-
-    const { filter } = props;
-
     return (
-        <select
-            value={value}
-            onChange={onChangeSelect}
-            className='item-filter'  >
-            {
-                species.map(({ value, label }) => {
-                    const isActive = filter === value;
-                    const clazz = isActive ? 'active' : null;
-                    return (
-                        <option
-                            className={`item-filter__option ${clazz}`}
-                            key={value}
-                            value={value}>
-                            {label}
-                        </option>
-                    )
-                })
-            }
-        </select >
+        <Formik
+            initialValues={{
+                filter: ''
+            }}
+            onSubmit={({ filter }) => {
+                props.updateFilterChar('', filter)
+                props.onFilterChange(filter)
+            }}>
+            {({ values }) => (
+                <Form className='item-filter'>
+                    <Field
+                        className='item-filter__select'
+                        name="filter"
+                        as="select"
+                        type="text">
+                        {
+                            species.map(({ value, label }, i) => {
+                                const isActive = values.filter === value;
+                                const clazz = isActive ? 'active' : '';
+                                return (
+                                    <option
+                                        className={`item-filter__option ${clazz}`}
+                                        key={i}
+                                        value={value}>
+                                        {label}
+                                    </option>
+                                )
+                            })
+                        }
+                    </Field>
+                    <button className='button button__small' type='submit'>ok</button>
+                </Form>
+            )}
+        </Formik>
     )
 }
 
