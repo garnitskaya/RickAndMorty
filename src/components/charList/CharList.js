@@ -93,42 +93,49 @@ const CharList = (props) => {
     const renderItems = (arr) => {
         const items = arr.map(({ id, name, image, status, locationName, episode, species, gender }) => {
 
-            const statusIcon = (status) => {
-                switch (status) {
-                    case "Dead":
-                        return <i className="dead fas fa-skull-crossbones" />;
-                    case "Alive":
-                        return <i className="alive heartbeat fas fa-heartbeat" />;
-                    case "unknown":
-                        return <i className="unknown fas fa-question" />;
-                    default:
-                        break;
-                }
+            let statusClassName;
+            switch (status) {
+                case "Dead":
+                    statusClassName = "dead fa-skull-crossbones";
+                    break;
+                case "Alive":
+                    statusClassName = "alive heartbeat fa-heartbeat";
+                    break;
+                default:
+                    statusClassName = "unknown fa-question";
             }
 
-            const speciesIcon = (species) => {
-                switch (species) {
-                    case "Human":
-                        return <i className="fas fa-male" />;
-                    case "Alien":
-                        return <i className="fab fa-reddit-alien" />;
-                    case "Humanoid":
-                        return <i className="fas fa-pastafarianism" />;
-                    case "Robot":
-                        return <i className="fas fa-robot" />;
-                    case "Animal":
-                        return <i className="fas fa-paw" />;
-                    case "Disease":
-                        return <i className="fas fa-disease" />;
-                    case "Mythological Creature":
-                        return <i className="fas fa-spider" />;
-                    case "Poopybutthole":
-                        return <i className="fab fa-snapchat-ghost" />;
-                    case "Cronenberg":
-                        return <i className="fas fa-bug" />;
-                    default:
-                        return <i className="unknown fas fa-question" />;
-                }
+            let speciesClassName;
+            switch (species) {
+                case "Human":
+                    speciesClassName = "fas fa-male";
+                    break;
+                case "Alien":
+                    speciesClassName = "fab fa-reddit-alien";
+                    break;
+                case "Humanoid":
+                    speciesClassName = "fas fa-pastafarianism";
+                    break;
+                case "Robot":
+                    speciesClassName = "fas fa-robot";
+                    break;
+                case "Animal":
+                    speciesClassName = "fas fa-paw";
+                    break;
+                case "Disease":
+                    speciesClassName = "fas fa-disease";
+                    break;
+                case "Mythological Creature":
+                    speciesClassName = "fas fa-spider";
+                    break;
+                case "Poopybutthole":
+                    speciesClassName = "fab fa-snapchat-ghost";
+                    break;
+                case "Cronenberg":
+                    speciesClassName = "fas fa-bug";
+                    break;
+                default:
+                    speciesClassName = "unknown fas fa-question";
             }
 
             const active = selectedChar === id && showInfo ? 'active' : '';
@@ -146,12 +153,12 @@ const CharList = (props) => {
                         <div className='char-item__block'>
                             <div className='char-item__species'>
                                 Species
-                                {speciesIcon(species)}
+                                <i className={`${speciesClassName}`} />
                                 {species}
                             </div>
                             <div className='char-item__status'>
                                 Status
-                                {statusIcon(status)}
+                                <i className={`fas ${statusClassName}`} />
                                 {status}
                             </div>
                         </div>
