@@ -28,7 +28,7 @@ const App = () => {
                         <MainMenu />
                         <Suspense fallback={<Spinner />}>
                             <Switch>
-                                <Route exact path='/'>
+                                <Route exact path='/RickAndMorty'>
                                     <MainPage />
                                 </Route>
                                 <Route exact path='/characters'>
