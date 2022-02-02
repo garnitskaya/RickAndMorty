@@ -3,10 +3,10 @@
     "static/js/0.8e3e4d64.chunk.js": "/RickAndMorty/static/js/0.8e3e4d64.chunk.js",
     "static/js/0.8e3e4d64.chunk.js.map": "/RickAndMorty/static/js/0.8e3e4d64.chunk.js.map",
     "main.css": "/RickAndMorty/static/css/main.7b8ca5b8.chunk.css",
-    "main.js": "/RickAndMorty/static/js/main.32a8a1da.chunk.js",
-    "main.js.map": "/RickAndMorty/static/js/main.32a8a1da.chunk.js.map",
-    "runtime-main.js": "/RickAndMorty/static/js/runtime-main.a559d014.js",
-    "runtime-main.js.map": "/RickAndMorty/static/js/runtime-main.a559d014.js.map",
+    "main.js": "/RickAndMorty/static/js/main.44d1aae9.chunk.js",
+    "main.js.map": "/RickAndMorty/static/js/main.44d1aae9.chunk.js.map",
+    "runtime-main.js": "/RickAndMorty/static/js/runtime-main.a3956eaa.js",
+    "runtime-main.js.map": "/RickAndMorty/static/js/runtime-main.a3956eaa.js.map",
     "static/js/3.b742cdb7.chunk.js": "/RickAndMorty/static/js/3.b742cdb7.chunk.js",
     "static/js/3.b742cdb7.chunk.js.map": "/RickAndMorty/static/js/3.b742cdb7.chunk.js.map",
     "static/css/4.92f1764d.chunk.css": "/RickAndMorty/static/css/4.92f1764d.chunk.css",
@@ -27,8 +27,8 @@
     "static/js/9.6b7a4f51.chunk.js": "/RickAndMorty/static/js/9.6b7a4f51.chunk.js",
     "static/js/9.6b7a4f51.chunk.js.map": "/RickAndMorty/static/js/9.6b7a4f51.chunk.js.map",
     "static/css/10.df95b9b7.chunk.css": "/RickAndMorty/static/css/10.df95b9b7.chunk.css",
-    "static/js/10.8cd90889.chunk.js": "/RickAndMorty/static/js/10.8cd90889.chunk.js",
-    "static/js/10.8cd90889.chunk.js.map": "/RickAndMorty/static/js/10.8cd90889.chunk.js.map",
+    "static/js/10.5a4c8f34.chunk.js": "/RickAndMorty/static/js/10.5a4c8f34.chunk.js",
+    "static/js/10.5a4c8f34.chunk.js.map": "/RickAndMorty/static/js/10.5a4c8f34.chunk.js.map",
     "static/css/11.8a2a584e.chunk.css": "/RickAndMorty/static/css/11.8a2a584e.chunk.css",
     "static/js/11.8b58d04d.chunk.js": "/RickAndMorty/static/js/11.8b58d04d.chunk.js",
     "static/js/11.8b58d04d.chunk.js.map": "/RickAndMorty/static/js/11.8b58d04d.chunk.js.map",
@@ -52,9 +52,9 @@
     "static/js/3.b742cdb7.chunk.js.LICENSE.txt": "/RickAndMorty/static/js/3.b742cdb7.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.a559d014.js",
+    "static/js/runtime-main.a3956eaa.js",
     "static/js/3.b742cdb7.chunk.js",
     "static/css/main.7b8ca5b8.chunk.css",
-    "static/js/main.32a8a1da.chunk.js"
+    "static/js/main.44d1aae9.chunk.js"
   ]
 }
