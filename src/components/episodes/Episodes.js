@@ -1,55 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { fetchEpisodes } from '../../redux/actions';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
-import RickAndMortyService from './../../services/RickAndMortyService';
-import { Link } from 'react-router-dom';
 
 import './episodes.scss';
 
 const Episodes = () => {
-    const [episodes, setEpisodes] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(1);
-    const [ended, setEnded] = useState(false);
-
-    const rickAndMortyService = new RickAndMortyService();
+    const { episodes, loading, error, newItemLoading, offset, ended } = useSelector(state => state.episodes);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         onRequest();
-        // eslint-disable-next-line
     }, []);
 
-
     const onRequest = (offset) => {
-        onEpisodeLoading();
-        rickAndMortyService
-            .getAllEpisode(offset)
-            .then(onEpisodeLoaded)
-            .catch(onError)
-    }
-
-    const onEpisodeLoading = () => {
-        setNewItemLoading(true);
-    }
-
-    const onEpisodeLoaded = (newEpisodes) => {
-        let ended = false;
-        if (newEpisodes.length < 20) {
-            ended = true
-        }
-
-        setEpisodes(episodes => [...episodes, ...newEpisodes]);
-        setLoading(false);
-        setNewItemLoading(false);
-        setOffset(offset => offset + 1);
-        setEnded(ended);
-    }
-
-    const onError = () => {
-        setError(true);
-        setLoading(false);
+        dispatch(fetchEpisodes(offset));
     }
 
     const renderItem = (arr) => {

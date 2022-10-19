@@ -1,48 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchCharacter } from './../../redux/actions/character';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
-import RickAndMortyService from './../../services/RickAndMortyService';
 
 import './randomChar.scss';
-import { Link } from 'react-router-dom';
 
 const RandomChar = () => {
-    const [char, setChar] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-
-    const rickAndMortyService = new RickAndMortyService();
+    const { char, loading, error } = useSelector(state => state.character);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         updateChar();
         const timeId = setInterval(updateChar, 100000);
 
         return () => clearInterval(timeId);
-        // eslint-disable-next-line
     }, []);
 
     const updateChar = () => {
         const id = Math.floor(Math.random() * (670 - 1) + 1);
-
-        onCharLoading();
-        rickAndMortyService
-            .getCharacter(id)
-            .then(onCharLoaded)
-            .catch(onError)
-    }
-
-    const onCharLoaded = (char) => {
-        setChar(char);
-        setLoading(false);
-    }
-
-    const onCharLoading = () => {
-        setLoading(true);
-    }
-
-    const onError = () => {
-        setError(true);
-        setLoading(false);
+        dispatch(fetchCharacter(id));
     }
 
     const spinner = loading ? <Spinner /> : null;
@@ -73,7 +52,7 @@ const View = ({ char }) => {
             <Link to={`/characters/${id}`} className='randomchar__name' >
                 <h2>{name}</h2>
             </Link>
-        </div >
+        </div>
     )
 }
 export default RandomChar;

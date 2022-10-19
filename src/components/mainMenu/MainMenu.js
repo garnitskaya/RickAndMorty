@@ -1,14 +1,37 @@
-import { NavLink } from 'react-router-dom';
-import './mainMenu.scss';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { NavLink, useLocation } from "react-router-dom";
+
+import "./mainMenu.scss";
+
+const links = [
+    { to: "/characters", label: "Characters" },
+    { to: "/episodes", label: "Episodes" },
+    { to: "/locations", label: "Locations" },
+];
 
 const MainMenu = () => {
+    const dispatch = useDispatch();
+    const location = useLocation();
+
+    useEffect(() => {
+        dispatch({ type: 'RESET_APP' });
+    }, [location.pathname]);
+
     return (
-        <div className='main-menu'>
-            <NavLink activeClassName="main-menu__link__active" to='/characters' className='main-menu__link' >Characters</NavLink>
-            <NavLink activeClassName="main-menu__link__active" to='/episodes' className='main-menu__link' >Episodes</NavLink>
-            <NavLink activeClassName="main-menu__link__active" to='/locations' className='main-menu__link' >Locations</NavLink>
+        <div className="main-menu">
+            {links.map(({ to, label }) => (
+                <NavLink
+                    key={to}
+                    activeClassName="main-menu__link__active"
+                    className="main-menu__link"
+                    to={to}
+                >
+                    {label}
+                </NavLink>
+            ))}
         </div>
-    )
-}
+    );
+};
 
 export default MainMenu;

@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
-import RickAndMortyService from './../../services/RickAndMortyService';
-
+import rickAndMortyService from '../../services/rickAndMortyService';
 
 const SinglePage = ({ Component, dataType }) => {
     const { id } = useParams();
@@ -13,11 +12,10 @@ const SinglePage = ({ Component, dataType }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const rickAndMortyService = new RickAndMortyService();
+    const { getCharacter, getLocation, getEpisode } = rickAndMortyService();
 
     useEffect(() => {
         updateData();
-        // eslint-disable-next-line
     }, [id]);
 
     const nextData = () => {
@@ -42,18 +40,15 @@ const SinglePage = ({ Component, dataType }) => {
 
         switch (dataType) {
             case 'character':
-                return rickAndMortyService
-                    .getCharacter(id)
+                return getCharacter(id)
                     .then(onDataLoaded)
                     .catch(onError)
             case 'location':
-                return rickAndMortyService
-                    .getLocation(id)
+                return getLocation(id)
                     .then(onDataLoaded)
                     .catch(onError)
             case 'episode':
-                return rickAndMortyService
-                    .getEpisode(id)
+                return getEpisode(id)
                     .then(onDataLoaded)
                     .catch(onError)
             default:

@@ -1,15 +1,12 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setTerm } from '../../redux/actions';
 
 import './searchPanel.scss';
 
-const SearchPanel = (props) => {
-    const [term, setTerm] = useState('');
-
-    const onUpdateSearch = (e) => {
-        const term = e.target.value;
-        setTerm(term)
-        props.onUpdateSearch(term);
-    }
+const SearchPanel = () => {
+    const { term } = useSelector(state => state.characters);
+    const dispatch = useDispatch();
 
     return (
         <div className='search-panel'>
@@ -18,7 +15,7 @@ const SearchPanel = (props) => {
                 placeholder='Type a character`s name'
                 type='text'
                 value={term}
-                onChange={onUpdateSearch} />
+                onChange={(e) => dispatch(setTerm(e.target.value))} />
             <i className="search fas fa-search"></i>
         </div>
     )
